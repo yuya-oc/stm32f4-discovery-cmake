@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.0)
 
 project(stm32f4-discovery)
 
+IF(NOT CMAKE_CROSSCOMPILING)
+  message(FATAL_ERROR "Cross compiling only. Please use -DCMAKE_TOOLCHAIN_FILE=/PATH/TO/TOOLCHAIN_FILE .")
+ENDIF(NOT CMAKE_CROSSCOMPILING)
+
 set(LIBOPENCM3_DIR ${CMAKE_SOURCE_DIR}/lib/libopencm3)
 add_custom_target(libopencm3 make WORKING_DIRECTORY ${LIBOPENCM3_DIR})
 include_directories(${LIBOPENCM3_DIR}/include)
