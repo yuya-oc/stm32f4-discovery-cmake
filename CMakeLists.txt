@@ -16,6 +16,10 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${STM32F4_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 --specs=nosys.specs ${STM32F4_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T ${CMAKE_SOURCE_DIR}/stm32f4-discovery.ld -nostartfiles")
 
+function(add_bin_from_elf bin elf)
+  add_custom_target(${bin} ALL ${CMAKE_OBJCOPY} -Obinary ${elf} ${bin} DEPENDS ${elf})
+endfunction(add_bin_from_elf)
+
 add_subdirectory(button)
 add_subdirectory(rand)
 add_subdirectory(cpp)
