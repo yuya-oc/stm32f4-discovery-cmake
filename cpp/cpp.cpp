@@ -2,6 +2,7 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <vector>
+#include <iostream>
 
 //#define USE_FUNCTIONAL
 #ifdef USE_FUNCTIONAL
@@ -9,6 +10,9 @@
 #endif
 
 void *__dso_handle;
+extern "C"{
+  extern void initialise_monitor_handles(void);
+}
 
 uint16_t exti_line_state;
 
@@ -45,6 +49,8 @@ int main(void)
 	button_setup();
 	gpio_setup();
 
+	initialise_monitor_handles();
+
 #ifdef USE_FUNCTIONAL
 	std::function<void(int)> wait;
 #else
@@ -59,6 +65,7 @@ int main(void)
 	/* Blink the LED (PD12) on the board. */
 	while (v.size()<1000000) {
 		v.push_back(1);
+		std::cout << "v.size() = " << v.size() << std::endl;
 		gpio_toggle(GPIOD, GPIO12);
 
 		constexpr auto loop = 3000000;
