@@ -11,7 +11,7 @@
 
 void *__dso_handle;
 extern "C"{
-  extern void initialise_monitor_handles(void);
+	extern void initialise_monitor_handles(void);
 }
 
 uint16_t exti_line_state;
@@ -54,7 +54,7 @@ int main(void)
 #ifdef USE_FUNCTIONAL
 	std::function<void(int)> wait;
 #else
-  void (*wait)(int a);
+	void (*wait)(int a);
 #endif
 	wait = [](auto num){ /* This lambda requires C++14 */
 		for (auto i = 0; i < num; i++) {		/* Wait a bit. */
@@ -63,9 +63,10 @@ int main(void)
 	};
 
 	/* Blink the LED (PD12) on the board. */
-	while (v.size()<1000000) {
-		v.push_back(1);
-		std::cout << "v.size() = " << v.size() << std::endl;
+	int times = 0;
+	while (true) {
+		times++;
+		std::cout << "times = " << times << std::endl;
 		gpio_toggle(GPIOD, GPIO12);
 
 		constexpr auto loop = 3000000;
